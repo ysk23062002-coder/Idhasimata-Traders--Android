@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123d2b"><meta name="description" content="Idhasimata Traders agriculture products and orders">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/logo.png">
+<title>Idhasimata Traders</title>
+<style>
+:root{--green:#123d2b;--green2:#1d6243;--gold:#d8b765;--bg:#f5f7f3;--ink:#18251d}
+*{box-sizing:border-box}body{margin:0;font:16px system-ui,Arial;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--green),var(--green2));color:white;padding:18px 16px 24px;border-radius:0 0 22px 22px}
+.top{display:flex;align-items:center;gap:12px}.logo{width:62px;height:62px;object-fit:contain;background:white;border-radius:14px;padding:4px}
+h1{font-size:21px;margin:0}header p{margin:4px 0;color:#f2e6bf;font-size:13px}
+.controls{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}select,button,input{font:inherit;border-radius:10px;padding:10px;border:1px solid #d5ddd5}
+select{background:white}.tabs{display:flex;gap:8px;padding:12px;overflow:auto}.tabs button{white-space:nowrap;background:white;border:1px solid #dce4dc}
+.tabs button.active{background:var(--green);color:white}.wrap{max-width:900px;margin:auto;padding:0 12px 28px}
+main{padding:8px 4px}.hero{background:#e9f0e8;border-radius:16px;padding:18px;margin:8px 0 16px}
+.hero h2{margin:0 0 6px;color:var(--green)}.muted{color:#637167;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:white;border:1px solid #e2e8e1;border-radius:16px;padding:15px;box-shadow:0 2px 8px #163d2b0b}
+.card h3{margin:4px 0 8px;font-size:17px}.symbol{font-size:30px}.price{font-weight:700;color:var(--green)}
+button.primary{background:var(--green);color:white;border:0}button.gold{background:var(--gold);color:#241d0d;border:0}
+button:disabled{opacity:.5}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.field{display:grid;gap:5px;margin:10px 0}.field input{width:100%;background:white}
+.notice{background:#fff7df;border:1px solid #ead69c;padding:12px;border-radius:12px;font-size:13px}
+footer{text-align:center;color:#68756b;font-size:12px;padding:20px}
+.hidden{display:none}.listitem{padding:10px 0;border-bottom:1px solid #e7ece7}
+</style></head>
+<body>
+<header><div class="top"><img class="logo" src="assets/logo.png" alt="Idhasimata Traders logo" onerror="this.style.display='none'"><div><h1>IDHASIMATA TRADERS</h1><p>Neri Bk · Tal. Jamner · Dist. Jalgaon</p><p>Ajay Patil · Proprietor</p></div></div>
+<div class="controls"><select id="language" aria-label="Language"><option value="mr">मराठी</option><option value="hi">हिंदी</option><option value="en">English</option></select><select id="role"><option value="customer">Customer</option><option value="admin">Admin preview</option></select></div></header>
+<div class="wrap"><nav class="tabs" id="tabs"></nav><main id="app"></main></div>
+<footer>Call: 9665762648 · Demo version · Orders are not transmitted to the business yet.</footer>
+<script>
+const translations={
+mr:{home:"मुख्यपृष्ठ",products:"उत्पादने",cart:"ऑर्डर",offers:"ऑफर्स",contact:"संपर्क",welcome:"शेतकऱ्यांच्या प्रगतीसाठी विश्वासाचे नाव",intro:"कृषी उत्पादनांसाठी Idhasimata Traders शी संपर्क साधा.",add:"ऑर्डरमध्ये जोडा",empty:"अजून कोणतीही उत्पादने ऑर्डरमध्ये नाहीत.",checkout:"ऑर्डर तपशील",name:"शेतकऱ्याचे नाव",phone:"मोबाईल नंबर",address:"गाव / पत्ता",payment:"पेमेंट पद्धत",cod:"Cash on Delivery",upi:"UPI (नंतर सुरू होईल)",send:"ऑर्डरचा मसुदा तयार करा",admin:"Admin डॅशबोर्ड",adminnote:"Admin सुविधांसाठी सुरक्षित backend आणि OTP सेवा जोडणे आवश्यक आहे.",price:"किंमत विचारण्यासाठी संपर्क करा",success:"ऑर्डरचा मजकूर तयार झाला. WhatsApp वर पाठवण्यापूर्वी तपासा.",noorders:"या डेमोमध्ये ऑर्डर सर्व्हरवर सेव्ह होत नाहीत."},
+hi:{home:"होम",products:"उत्पाद",cart:"ऑर्डर",offers:"ऑफर",contact:"संपर्क",welcome:"किसानों की प्रगति का भरोसेमंद नाम",intro:"कृषि उत्पादों के लिए Idhasimata Traders से संपर्क करें।",add:"ऑर्डर में जोड़ें",empty:"अभी कोई उत्पाद ऑर्डर में नहीं है।",checkout:"ऑर्डर विवरण",name:"किसान का नाम",phone:"मोबाइल नंबर",address:"गांव / पता",payment:"भुगतान तरीका",cod:"Cash on Delivery",upi:"UPI (बाद में शुरू होगा)",send:"ऑर्डर का मसौदा बनाएं",admin:"Admin डैशबोर्ड",adminnote:"Admin सुविधाओं के लिए सुरक्षित backend और OTP सेवा जरूरी है।",price:"कीमत के लिए संपर्क करें",success:"ऑर्डर टेक्स्ट तैयार है। WhatsApp भेजने से पहले जांचें।",noorders:"इस डेमो में ऑर्डर सर्वर पर सेव नहीं होते।"},
+en:{home:"Home",products:"Products",cart:"Order",offers:"Offers",contact:"Contact",welcome:"A trusted name for farmers' growth",intro:"Contact Idhasimata Traders for agriculture products.",add:"Add to order",empty:"No products added yet.",checkout:"Order details",name:"Farmer name",phone:"Mobile number",address:"Village / address",payment:"Payment method",cod:"Cash on Delivery",upi:"UPI (coming later)",send:"Prepare order message",admin:"Admin dashboard",adminnote:"A secure backend and OTP service are required for live admin features.",price:"Contact for price",success:"Order text prepared. Review it before sending on WhatsApp.",noorders:"Orders are not saved to a server in this demo."}
+};
+const products=[{id:1,name:"Banana Tissue Culture Plants",desc:"G9 banana plants · quantity and price confirmed on enquiry",icon:"🌱"},{id:2,name:"Multipower",desc:"Agriculture product · 1 kg pack",icon:"🌾"}];
+let lang="mr",role="customer",page="home",cart=[];
+const $=s=>document.querySelector(s), t=()=>translations[lang];
+function nav(){const keys=["home","products","cart","offers","contact"];$("#tabs").innerHTML=keys.map(k=>`<button class="${page===k?'active':''}" data-page="${k}">${t()[k]}</button>`).join("");$("#tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{page=b.dataset.page;render()})}
+function productCards(){return `<div class="grid">${products.map(p=>`<article class="card"><div class="symbol">${p.icon}</div><h3>${p.name}</h3><p class="muted">${p.desc}</p><p class="price">${t().price}</p><button class="primary" data-add="${p.id}">${t().add}</button></article>`).join("")}</div>`}
+function render(){
+ nav();let a=$("#app");
+ if(role==="admin"){a.innerHTML=`<section class="hero"><h2>${t().admin}</h2><p>${t().adminnote}</p></section><div class="grid"><div class="card"><h3>📦 Products</h3><p class="muted">Product catalogue preview</p></div><div class="card"><h3>🧾 Billing</h3><p class="muted">Digital invoice module — setup pending</p></div><div class="card"><h3>🛍️ Orders</h3><p class="muted">Live order management — backend pending</p></div><div class="card"><h3>🔐 Admin OTP</h3><p>8698816047</p><p class="muted">OTP not active in this demo.</p></div></div>`;return}
+ if(page==="home")a.innerHTML=`<section class="hero"><h2>${t().welcome}</h2><p>${t().intro}</p><strong>🌱 Quality · Service · Trust</strong></section><h2>${t().products}</h2>${productCards()}`;
+ if(page==="products")a.innerHTML=`<h2>${t().products}</h2>${productCards()}`;
+ if(page==="cart")a.innerHTML=`<h2>${t().checkout}</h2>${cart.length?cart.map(p=>`<div class="listitem">${p.icon} ${p.name}</div>`).join(""):`<p>${t().empty}</p>`}<div class="notice">${t().noorders}</div><div class="field"><label>${t().name}</label><input id="farmer" placeholder="${t().name}"></div><div class="field"><label>${t().phone}</label><input id="customerPhone" inputmode="tel" placeholder="${t().phone}"></div><div class="field"><label>${t().address}</label><input id="address" placeholder="${t().address}"></div><div class="field"><label>${t().payment}</label><select id="pay"><option>${t().cod}</option><option disabled>${t().upi}</option></select></div><button class="primary" id="send">${t().send}</button><p id="result" class="muted"></p>`;
+ if(page==="offers")a.innerHTML=`<section class="hero"><h2>${t().offers}</h2><p>New schemes and offers will be announced here.</p></section>`;
+ if(page==="contact")a.innerHTML=`<section class="card"><h2>${t().contact}</h2><p>Idhasimata Traders</p><p>Ajay Patil · Proprietor</p><p>Neri Bk, Tal. Jamner, Dist. Jalgaon</p><p><a href="tel:9665762648">9665762648</a></p><a href="https://wa.me/919665762648">WhatsApp</a></section>`;
+ a.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{cart.push(products.find(p=>p.id==b.dataset.add));page="cart";render()});
+ const send=$("#send");if(send)send.onclick=()=>{let msg=`Idhasimata Traders order enquiry\nFarmer: ${$("#farmer").value}\nPhone: ${$("#customerPhone").value}\nAddress: ${$("#address").value}\nProducts: ${cart.map(x=>x.name).join(", ")}\nPayment: ${$("#pay").value}`;$("#result").textContent=t().success;let url="https://wa.me/919665762648?text="+encodeURIComponent(msg);let link=document.createElement("a");link.href=url;link.target="_blank";link.textContent="Open WhatsApp order draft";link.style.display="block";link.style.marginTop="10px";$("#result").after(link)};
+}
+$("#language").onchange=e=>{lang=e.target.value;render()};$("#role").onchange=e=>{role=e.target.value;page="home";render()};render();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script></body></html>
